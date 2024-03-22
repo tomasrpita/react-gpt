@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { GptMessage, MyMessage, TypingLoader, TextMessageBox } from "../../components"
+import { GptMessage, MyMessage, TypingLoader, TextMessageBox, TextMessageBoxFile, TextMessageBoxSelect } from "../../components"
 
 interface Message {
   text: string;
-  isGpt: boolean;
 }
+
 
 
 export const OrthographyPage = () => {
@@ -56,6 +56,17 @@ export const OrthographyPage = () => {
         placeholder="Escribe aquí lo que deseas"
         disableCorrections // esto es como mandar true
       />
+      {/* <TextMessageBoxFile
+        // onSendMessage={(message) => console.log(message)}
+        onSendMessage={handlePost}
+        placeholder="Escribe aquí lo que deseas"
+      /> */}
+      {/* <TextMessageBoxSelect
+        // onSendMessage={(message) => console.log(message)}
+        onSendMessage={console.log}
+        placeholder="Escribe aquí lo que deseas"
+        options={[{id: '1', text: 'Opción 1'}, {id: '2', text: 'Opción 2'}, {id: '3', text: 'Opción 3'}]}
+      /> */}
     </div>
   )
 }

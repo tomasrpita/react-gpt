@@ -19,6 +19,7 @@ export const ChatTemplate = () => {
     // TODO: UseCase
     setIsLoading(false);
     // TODO: Añadir el mensaje de respuesta con isGpt: true
+  
   }
 
 
