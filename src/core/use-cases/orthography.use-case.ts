@@ -3,7 +3,6 @@ import type { OrthographyResponse } from "../../interfaces";
 
 
 export const OrthographyUseCase = async(prompt: string) => {
-    console.log('prompt', prompt)
 
     try {
 
@@ -18,7 +17,6 @@ export const OrthographyUseCase = async(prompt: string) => {
     if (!resp.ok) throw new Error('Error al realizar la corrección de ortografía')
 
     const data = await resp.json() as OrthographyResponse;
-
 
     return {
         ok: true,

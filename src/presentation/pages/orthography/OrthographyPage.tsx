@@ -1,10 +1,15 @@
 import { useState } from "react";
-import { GptMessage, MyMessage, TypingLoader, TextMessageBox } from "../../components"
+import { GptMessage, MyMessage, TypingLoader, TextMessageBox, GptOrthographyMessage } from "../../components"
 import { OrthographyUseCase } from "../../../core/use-cases/orthography.use-case";
 
 interface Message {
   text: string;
   isGpt: boolean;
+  info?: {
+    userScore: number;
+    errors:string[];
+    message: string;
+  }
 }
 
 
@@ -18,13 +23,17 @@ export const OrthographyPage = () => {
     setMessages( (prev) => [...prev, { text: text, isGpt: false }] );
 
 
-    const data = await OrthographyUseCase(text);
+    const {ok, errors, message, userScore} = await OrthographyUseCase(text);
 
-    console.log(data);
+    if (!ok) {
+      setMessages( (prev) => [...prev, { text: 'No se pudo realizar la correción', isGpt: true }] );
+    } else {
+      setMessages( (prev) => [...prev, { text: message, isGpt: true, info: { userScore, errors, message } }] );
+    }
 
 
     setIsLoading(false);
-    // TODO: Añadir el mensaje de respuesta con isGpt: true
+    
   }
 
 
@@ -33,13 +42,13 @@ export const OrthographyPage = () => {
       <div className="chat-messages">
         <div className="grid grid-cols-12 gap-y-2">
           {/* Bienvenida */}
-          <GptMessage text="¡Hola! Soy err Chapty, un modelo de lenguaje de inteligencia artificial. ¿En qué puedo ayudarte hoy?" />
+          <GptMessage text="Hola, puedes escribir tu texto en español, y te ayudo con las correcciones" />
 
           {/* Mensajes */}
           {
             messages.map((message, index) => {
               if (message.isGpt) {
-                return <GptMessage key={index} text={message.text} />
+                return <GptOrthographyMessage key={index} {...message.info!} />
               } else {
                 return <MyMessage key={index} text={message.text} />
               }
